@@ -1,1 +1,1 @@
-# Simple_Website_on_AWS
+# Deploying simple static website via AWS services
