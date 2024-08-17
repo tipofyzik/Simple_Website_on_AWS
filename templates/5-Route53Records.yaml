@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >-
+  AWS Cloud Formation template for creating records on Route53
+
+Parameters:
+  RootDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your root domain (example.com)
+  SubDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your subdomain (www.example.com)
+  PublicHostedZoneID:
+    Description: The Hosted Zone ID for root domain
+    Type: String
+    Default: "" #example: Z1BKCTXD74EZPE
+  CloudDistributionDomainName:
+    Description: The distribution domain name
+    Type: String
+    Default: "" #Example: d111111abcdef8.cloudfront.net
+
+Resources:
+  Route53Records:
+    Type: "AWS::Route53::RecordSetGroup"
+    Properties:
+      HostedZoneId: !Ref PublicHostedZoneID
+      RecordSets:
+        - Name: !Sub "${RootDomainName}."
+          Type: A
+          AliasTarget:
+            DNSName: !Ref CloudDistributionDomainName
+            HostedZoneId: "Z2FDTNDATAQYW2" #Constant ID issued by AWS CloudFront
+        - Name: !Sub "${RootDomainName}."
+          Type: AAAA
+          AliasTarget:
+            DNSName: !Ref CloudDistributionDomainName
+            HostedZoneId: "Z2FDTNDATAQYW2" #Constant ID issued by AWS CloudFront
+        - Name: !Sub "${SubDomainName}."
+          Type: A
+          AliasTarget:
+            DNSName: !Ref CloudDistributionDomainName
+            HostedZoneId: "Z2FDTNDATAQYW2" #Constant ID issued by AWS CloudFront
+        - Name: !Sub "${SubDomainName}."
+          Type: AAAA
+          AliasTarget:
+            DNSName: !Ref CloudDistributionDomainName
+            HostedZoneId: "Z2FDTNDATAQYW2" #Constant ID issued by AWS CloudFront
+
+Outputs:
+  WebsiteURLForRootDomain:
+    Description: Website url for root domain
+    Value: !Sub "https://${RootDomainName}/"

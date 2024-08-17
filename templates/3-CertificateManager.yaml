@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >-
+  AWS Cloud Formation template for requesting SSL/TLS certificate for the domain and all its subdomains
+
+Parameters:
+  RootDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your root domain (example.com)
+  PublicHostedZoneID:
+    Description: The Hosted Zone ID for root domain
+    Type: String
+    Default: "" #example: Z1BKCTXD74EZPE
+
+Resources:
+  SSLCertificate:
+    Type: "AWS::CertificateManager::Certificate"
+    Properties:
+      DomainName: !Ref RootDomainName
+      SubjectAlternativeNames:
+        - !Ref RootDomainName
+        - !Sub "*.${RootDomainName}"
+      DomainValidationOptions:
+        - DomainName: !Ref RootDomainName
+          HostedZoneId: !Ref PublicHostedZoneID
+      ValidationMethod: DNS
+
+Outputs:
+  CertificateArn:
+    Description: Issued SSL certificate Arn
+    Value: !Ref SSLCertificate

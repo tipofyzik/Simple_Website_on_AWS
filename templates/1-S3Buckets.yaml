@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >-
+  AWS Cloud Formation template for creating S3 Buckets
+  - There is one bucket for each domain: one for root domain and another for subdomain.
+  - In this implementation, all requests for the subdomain are redirected to the root domain.
+  - All buckets are private by default. If you want another type of privacy, specify it using "AccessControl" in the properties.
+
+Parameters:
+  RootDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your root domain (example.com)
+  SubDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your subdomain (www.example.com)
+
+Resources:
+  MainWebsiteBucket:
+    Type: AWS::S3::Bucket
+    # DeletionPolicy: Retain # keep S3 bucket when its stack (in Cloud Formation) is deleted
+    Properties:
+      BucketName: !Ref RootDomainName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  WwwRedirectBucket:
+    Type: AWS::S3::Bucket
+    # DeletionPolicy: Retain # keep S3 bucket when its stack (in Cloud Formation) is deleted
+    Properties:
+      BucketName: !Ref SubDomainName
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName: !Ref RootDomainName
+          Protocol: https
+
+Outputs:
+  WebsiteURLForRootDomain:
+    Description: Amazon S3 website endpoint for root domain
+    Value: !GetAtt MainWebsiteBucket.WebsiteURL
+  DomainNameForRootDomain:
+    Description: IPv4 DNS name of S3 bucket for root domain
+    Value: !GetAtt MainWebsiteBucket.DomainName
+  RegionalDomainNameForRootDomain:
+    Description: Regional domain name of S3 bucket for root domain
+    Value: !GetAtt MainWebsiteBucket.RegionalDomainName
+  WebsiteURLForSubdomain:
+    Description: Amazon S3 website endpoint for subdomain
+    Value: !GetAtt WwwRedirectBucket.WebsiteURL
+  DomainNameForSubdomain:
+    Description: IPv4 DNS name of S3 bucket for subdomain
+    Value: !GetAtt WwwRedirectBucket.DomainName
+  RegionalDomainNameForSubdomain:
+    Description: Regional domain name of S3 bucket for subdomain
+    Value: !GetAtt WwwRedirectBucket.RegionalDomainName

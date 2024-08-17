@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >-
+  AWS Cloud Formation template for creating public Hosted Zone on Route53
+
+Parameters:
+  RootDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your root domain (example.com)
+
+Resources:
+  Route53PublicHostedZone:
+    Type: "AWS::Route53::HostedZone"
+    Properties:
+      Name: !Ref RootDomainName
+
+Outputs:
+  Route53HostedZoneId:
+    Description: Public hosted zone ID
+    Value: !GetAtt Route53PublicHostedZone.Id
+  Route53HostedZoneNS:
+    Description: Name of the servers for just created public hosted zone
+    Value: !Join [", ", !GetAtt Route53PublicHostedZone.NameServers]

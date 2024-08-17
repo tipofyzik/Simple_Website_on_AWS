@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >-
+  AWS Cloud Formation template for creating and managing a CloudFront distribution
+
+Parameters:
+  RootDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your root domain (example.com)
+  SubDomainName:
+    Description: The domain name for the website
+    Type: String
+    Default: "" #Your subdomain (www.example.com)
+  AcmCertificateARN:
+    Description: Public SSL/TLS certificate published by AWS Certificate Manager
+    Type: String
+    Default:
+    #Example: arn:aws:acm:Region:AccountID:certificate/certificate_ID
+
+Resources:
+  CloudFrontOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Description: Default Origin Access Control
+        Name: !Ref AWS::StackName
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  CloudFrontDistributionForRootDomain:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Origins:
+          - DomainName: !Sub "${RootDomainName}.s3.${AWS::Region}.amazonaws.com"
+            Id: !Sub "S3Origin-${RootDomainName}"
+            S3OriginConfig: {}
+            OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
+        Aliases:
+          - !Ref RootDomainName
+          - !Ref SubDomainName
+        DefaultCacheBehavior:
+          TargetOriginId: !Sub "S3Origin-${RootDomainName}"
+          ViewerProtocolPolicy: redirect-to-https
+          CachePolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6" # CachingOptimized (recommended for S3)
+          OriginRequestPolicyId: "b689b0a8-53d0-40ab-baf2-68738e2966ac" # AllViewerExceptHostHeader
+          AllowedMethods:
+            - GET
+            - HEAD
+          Compress: true
+        ViewerCertificate:
+          AcmCertificateArn: !Ref AcmCertificateARN
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponseCode: 404
+            ResponsePagePath: "/error.html"
+            ErrorCachingMinTTL: 10
+        DefaultRootObject: "index.html"
+        HttpVersion: http2
+        PriceClass: PriceClass_All
+
+  RootDomainBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref RootDomainName
+      PolicyDocument:
+        Version: "2008-10-17"
+        Id: "PolicyForCloudFrontPrivateContent"
+        Statement:
+          - Sid: "AllowCloudFrontServicePrincipal"
+            Effect: "Allow"
+            Principal:
+              Service: "cloudfront.amazonaws.com"
+            Action: "s3:GetObject"
+            Resource: !Sub "arn:aws:s3:::${RootDomainName}/*"
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistributionForRootDomain}"
+
+Outputs:
+  CloudFrontDistributionForRootDomainId:
+    Description: CloudFront distribution ID for root domain
+    Value: !Ref CloudFrontDistributionForRootDomain
+  CloudFrontDistributionDomainNameForRootDomain:
+    Description: CloudFront distribution domain name for root domain
+    Value: !GetAtt CloudFrontDistributionForRootDomain.DomainName
