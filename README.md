@@ -17,7 +17,7 @@ Architecture:
 Once you acquired custom domain name and registered on AWS you can start setting up and managing AWS resources. The process of deployment is divided into 5 steps. Let's go through each of them:
 **1. Setting up S3 buckets**  
 Open the first file in templates folder, **1-S3Buckets.yaml**, and specify the parameters. Namely, you shoud specify you domain name and subdomain that you want to use.  
-**Note!** In this implementation, the website is accessible via the domain name tipofyzik.online, and requests to the subdomain www.tipofyzik.online are redirected to the root domain.
+**Note!** In this implementation, the website is accessible via the domain name tipofyzik.online, and requests to the subdomain www.tipofyzik.online are redirected to the root domain (tipofyzik.online).
 Once you specified your domains, open CloudFormation on AWS. This service helps to set up and manage AWS resources that we use. Click on "create stack" and upload the first template with already specified parameters. After this, give the name to your stack and leave all other settings untouched.  
 ![image](https://github.com/user-attachments/assets/507b83ee-7c89-42fb-ab7f-a32b9d62159e)  
 Once the stack is created, open AWS S3 bucket that is responsible for the **root domain** (e.g., example.com). Upload all HTML pages from the webpage folder.  
@@ -40,7 +40,7 @@ Congratulations! You've just deployed your first website!
 
 
 ## Sources
-I highly recommend to check these resources if something went wrong. First two links lead to the website and youtube video that demonstrate how to deploy your website manually. The last source leads to the project where the deployment process of a website via CloudFormation is explained. You can also find the source code there.  
+I highly recommend checking these resources that I relied on if something goes wrong or if you want to dive deeper into this topic. First two links lead to the website and youtube video that demonstrate how to deploy your website manually. The last link directs you to the project where the deployment process of a website via CloudFormation is explained. And can also find the source code there.  
 
 [1] https://medium.com/@maksymyurchak/aws-s3-react-spa-cloudfront-route53-namecheap-how-to-host-your-website-with-domain-8e01c16187fc  
 [2] https://www.youtube.com/watch?v=Bmuoqo_JY4g  
