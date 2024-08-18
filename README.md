@@ -1,9 +1,12 @@
 # Deploying simple static website via AWS services
 
-## Implementation
+## How to use
+
+
+
 
 ### 1. S3 Bucket
-### 2. Certificate Manager
-### 3. Route 53
+### 2. Route 53
+### 3. Certificate Manager
 ### 4. Cloud Front
-### 5. CloudFOrmation
+### 5. CloudFormation
