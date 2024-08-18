@@ -42,6 +42,6 @@ Congratulations! You've just deployed your first website!
 ## Sources
 I highly recommend to check these resources if something went wrong. First two links lead to the website and youtube video that demonstrate how to deploy your website manually. The last source leads to the project where the deployment process of a website via CloudFormation is explained. You can also find the source code there.  
 
-[1] https://medium.com/@maksymyurchak/aws-s3-react-spa-cloudfront-route53-namecheap-how-to-host-your-website-with-domain-8e01c16187fc
-[2] https://www.youtube.com/watch?v=Bmuoqo_JY4g
-[3] https://dev.to/tiamatt/aws-project-module-4-use-cloudfront-distribution-to-serve-a-static-website-hosted-on-aws-s3-via-cloudformation-226m
+[1] https://medium.com/@maksymyurchak/aws-s3-react-spa-cloudfront-route53-namecheap-how-to-host-your-website-with-domain-8e01c16187fc  
+[2] https://www.youtube.com/watch?v=Bmuoqo_JY4g  
+[3] https://dev.to/tiamatt/aws-project-module-4-use-cloudfront-distribution-to-serve-a-static-website-hosted-on-aws-s3-via-cloudformation-226m  
