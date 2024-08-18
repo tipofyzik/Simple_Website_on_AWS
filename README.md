@@ -1,6 +1,6 @@
 # Deploying simple static website via AWS services
 ## 1. Prerequisites
-The very first thing you need to host your website is custom domain name. There are a variety of companies that offer registration of custom domains. You can choose companies such as Google and Amazone, especially if you require a compatibility with these platforms.  But for small projects like this you can buy domain name on namecheap.com[https://www.namecheap.com/].   
+The very first thing you need to host your website is custom domain name. There are a variety of companies that offer registration of custom domains. You can choose companies such as Google and Amazone, especially if you require a compatibility with these platforms.  But for small projects like this you can buy domain name on namecheap.com(https://www.namecheap.com/).   
 
 ## How to use
 
