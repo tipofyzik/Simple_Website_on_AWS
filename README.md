@@ -9,7 +9,7 @@ Architecture:
 ## 1. Prerequisites
 1. The very first thing you need to host your website is custom domain name. There are a variety of companies that offer registration of custom domains. You can choose companies such as Google and Amazone, especially if you require a compatibility with these platforms. But for small projects like this you can buy domain name on [namecheap.com](https://www.namecheap.com/). It offers a variety of features for customizing your domain for pretty low fee.
 ![image](https://github.com/user-attachments/assets/c95cdcc0-6565-4c23-b9ce-505e458802e2)  
-2. The second thing that should be taken into account is the registration on (Amazon Web Services)[https://aws.amazon.com/]. To use AWS resources you are required to register in their system.  
+2. The second thing that should be taken into account is the registration on [Amazon Web Services](https://aws.amazon.com/). To use AWS resources you are required to register in their system.  
 3. Download both folders from this github page **templates** and **webpage** and save it wherever you want on your pc.
 4. To work with YAML files you need some code editor. I use [VS Code](https://code.visualstudio.com/) because it supports a lot of languages and has a vast variety of extensions that allows to work a variety not built-in tools.
 
